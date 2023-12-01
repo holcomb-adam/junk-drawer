@@ -1,0 +1,81 @@
+#
+# Simple bash script to perform a full system upgrade for arch-linux systems.
+#
+
+
+print_help()
+{
+    echo "Usage: sudo sys-upgrade [options]"
+    echo "Options:"
+    echo "  --help          Display this help message"
+    echo "  --mirrors       Find and retrieve the latest pacman mirrors with reflector"
+    echo "  --flatpak       Upgrade flatpak packages"
+    echo "  --pacman        Upgrade pacman packages"
+    echo "  --reboot        Reboot the system after updates"
+}
+
+
+
+OPT_MIRRORS=false
+OPT_PACMAN=false
+OPT_FLATPAK=false
+OPT_REBOOT=false
+
+for opt in "$@"; do
+    shift
+    case $opt in
+        --help)
+            print_help
+            exit 0
+            ;;
+        --mirrors)
+            OPT_MIRRORS=true
+            ;;
+        --pacman)
+            OPT_PACMAN=true
+            ;;
+        --flatpak)
+            OPT_FLATPAK=true
+            ;;
+        --reboot)
+            OPT_REBOOT=true
+            ;;
+        *)
+            echo "Invalid option $opt. Use '$0 --help' for help" >&2
+            exit 1 ;;
+    esac
+done
+
+
+
+# Check if script was ran as a super user or with sudo
+if [ $EUID -ne 0 ]; then
+    echo "Please run as root"
+    exit 1    
+fi
+
+if $OPT_MIRRORS; then
+    echo "Updating mirrors..."
+    cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
+    reflector --latest 20 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+fi
+
+if $OPT_PACMAN; then
+    echo 'Running "pacman -Syu"...'
+    pacman -Syu
+fi
+
+if $OPT_FLATPAK; then
+    echo 'Upgrading flatpak packages...'
+    flatpak upgrade
+fi
+
+if $OPT_REBOOT; then
+    for timer in {30..1}; do
+        echo "SYSTEM WILL NOW REBOOT IN $timer SECONDS"
+        echo "Press Ctrl+C to cancel"
+        echo
+        sleep 1
+    done 
+    reboot
+fi
