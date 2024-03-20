@@ -1,0 +1,75 @@
+; see: https://elkowar.github.io/eww/configuration.html
+
+(defwidget separator []
+	(box    :width "24"
+		(label :text '|')
+	)
+)
+
+(defpoll battery-status :interval "5s" "scripts/battery-status")
+(defwidget battery []
+    (box
+        (label :text battery-status)
+    )
+)
+
+(defpoll wifi-status :interval "3s" "scripts/wifi-status")
+(defwidget wifi []
+	(box    :orientation "h" :tooltip 'hello'
+        (label :text wifi-status)		
+	)	
+)
+
+(defwidget statustray []
+    (box    :space-evenly false
+        ; (separator)
+        (battery)
+        (separator)
+        (wifi)
+    )
+)
+
+(defpoll time :interval "10s" "date '+%H:%M - %b %d, %Y'")
+(defwidget clock []
+	(box
+        (button    :onclick "eww update showcalendar=true" :onhoverlost "eww update showcalendar=false"
+            ;(calendar :day "date '+%d'" :month "date '+%m'" :year "date '+%y'")
+            (label :text time)
+        )
+	)
+)
+
+(defwidget left []
+    (box    :halign "start"
+        (label :text "o hai :3")
+    )
+)
+
+(defwidget center []
+	(box    :orientation "h" :halign "center"
+		(clock)
+	)
+)
+
+(defwidget right []
+	(box    :halign "end"
+		(statustray)
+	)
+)
+
+(defwidget bar-container []
+    (centerbox
+        (left)
+        (center)
+        (right)
+    )
+)
+
+(defwindow bar
+	:geometry (geometry :x "0.5%" :y "0.5%" :width "99.5%" :height "32px" :anchor "top center")
+	:monitor "0"
+	:stack "fg"
+	:exclusive true
+
+    (bar-container)
+)

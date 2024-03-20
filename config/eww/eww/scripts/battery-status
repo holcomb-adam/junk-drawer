@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+DEVICE_DIR=/sys/class/power_supply/BAT0
+PERCENT=$(cat $DEVICE_DIR/capacity)
+STATUS=$(cat $DEVICE_DIR/status)
+echo -n "$([ $STATUS = Charging ] && echo -n '*') BAT0:    $PERCENT%"
