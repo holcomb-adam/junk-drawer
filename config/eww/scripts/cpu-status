@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+CPU_LOAD=--
+CPU_TMP=$(perl -pe 's/ ^0+ | 0+$ //xg' /sys/class/thermal/thermal_zone0/temp)
+
+echo "cpu:   ${CPU_LOAD}%   ${CPU_TMP}°C"
