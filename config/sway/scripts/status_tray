@@ -1,7 +1,0 @@
-#!/bin/bash
-
-for entry in ~/.config/sway/scripts/entries/*; do
-   OUTPUT="$OUTPUT | $($entry)"
-done
-
-echo -e "$OUTPUT"
