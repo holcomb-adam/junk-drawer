@@ -4,7 +4,6 @@
 
 ### Variables #######################################################################
 
-HYPRPAPER=/bin/hyprpaper
 CACHE_DIR=~/.cache/wallpaper-engine
 CACHE_JSON=$CACHE_DIR/bing-biturl.json
 CACHE_BING_WALLPAPER=$CACHE_DIR/bing-wallpaper.jpg
@@ -20,11 +19,9 @@ info() {
 }
 
 prepare() {
-    [[ -f $HYPRPAPER ]] || {
-        info "hyprpaper was not found! Exiting..."
-        exit 1
-    }
+    # Yikes! Hopefully leave enough time for WM/DE to load!
     sleep 1s # yikes
+
     [[ -d $CACHE_DIR ]] || {
         info "Preparing cache directory '$CACHE_DIR'"
         mkdir $CACHE_DIR
@@ -35,7 +32,7 @@ prepare() {
     }
     if [ -f $CACHE_BING_WALLPAPER ]; then
         info "Updating wallpaper..."
-        update-hyprpaper
+        update-wallpaper
     fi
 }
 
@@ -65,11 +62,8 @@ fetch-bing-wallpaper() {
     wget -O $CACHE_BING_WALLPAPER "$URL"
 }
 
-update-hyprpaper() {
-    hyprctl hyprpaper unload $CACHE_BING_WALLPAPER
-    hyprctl hyprpaper preload $CACHE_BING_WALLPAPER
-    hyprctl hyprpaper wallpaper "eDP-1,$CACHE_BING_WALLPAPER"
-
+update-wallpaper() {
+    swaymsg output "*" bg $CACHE_BING_WALLPAPER fill
 }
 
 
@@ -88,8 +82,8 @@ do
         info "Downloading Bing wallpaper..."
         fetch-bing-wallpaper
 
-        info "Updating hyprpaper..."
-        update-hyprpaper
+        info "Updating the wallpaper..."
+        update-wallpaper
     fi
     sleep $POLL_RATE
 done
