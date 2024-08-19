@@ -10,7 +10,7 @@ prepare() {
     }
     [[ -d $ENTRIES_DIR ]] || {
         mkdir $ENTRIES_DIR
-        echo $DEFAULT_ENTRY > $ENTRIES_DIR/1
+        echo $DEFAULT_ENTRY > $ENTRIES_DIR/date
     }
 }
 
@@ -23,15 +23,15 @@ source_entries() {
 
 
 prepare
-cache_entries
+#cache_entries
 
 OUTPUT=""
-for (( IT=0; IT <= ${#ENTRIES_CACHE[@]}; IT++ )); do
+for entry in $ENTRIES_DIR/*; do
     if [ -n "$OUTPUT" ]; then
         OUTPUT=" | $OUTPUT"
     fi
 
-    OUTPUT="$(${ENTRIES_CACHE[$IT]})$OUTPUT"
+    OUTPUT="$($entry)$OUTPUT"
 done
 
 echo -e "$OUTPUT"
