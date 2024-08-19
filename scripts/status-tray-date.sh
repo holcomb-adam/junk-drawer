@@ -1,5 +1,5 @@
 #!/bin/bash
 
-DATE=$(date +'%Y-%m-%d %X')
+DATE=$(date +'%c')
 
 echo -n "$DATE"

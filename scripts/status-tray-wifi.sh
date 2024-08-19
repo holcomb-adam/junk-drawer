@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 DEVICE_NAME=wlan0
 NETWORK_NAME=$(iwctl station $DEVICE_NAME show | grep 'Connected network' | awk '{print $3}')

@@ -4,22 +4,23 @@
 
 set $MOD Mod4
 set $TERM kitty
-set $WALLPAPER ~/.cache/wallpaper-engine/bing-wallpaper.jpg
-set $MENU dmenu_path | dmenu | xargs swaymsg exec --
+set $WALLPAPER ~/images/ai/DALLE3-AESTHETIC_VAPORWAVE.png
+set $MENU wofi --show run
 
 output * background $WALLPAPER fill #4a3b57
 output DP-1 {
     mode 2560x1440@180Hz
     pos 1080,0
 }
+output DP-2 {
+    mode 1920x1080@144Hz transform 270
+    pos 0,0
+}
 output DP-3 {
     mode 1920x1080@144Hz transform 90
     pos 3640,0
 }
-output HDMI-A-1 {
-    mode 1920x1080@144Hz transform 270
-    pos 0,0
-}
+output HDMI-A-1 disable
 
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
@@ -48,7 +49,7 @@ floating_modifier $MOD normal
 bindsym $MOD+Shift+c reload
 
 # Exit sway (logs you out of your Wayland session)
-bindsym $MOD+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+bindsym $MOD+Shift+escape exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
 # Move your focus around
 bindsym $MOD+Left focus left
@@ -145,20 +146,23 @@ bar {
     
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
-    status_command while ~/.config/sway/scripts/status-tray; do sleep 1; done
-
+    #status_command while status-tray; do sleep 1; done
+    status_command while date '+%c'; do sleep 1; done
+    
     colors {
         statusline #ffffff
-        background #323232cc
+        background #323232ee
         inactive_workspace #32323200 #32323200 #5c5c5c
     }
 }
 
 exec mako
+exec wallpaper-engine
+exec kitty
+exec steam
+exec openrgb
+exec firefox
+exec chromium
 
-exec swaymsg "workspace 1; exec kitty"
-exec swaymsg "workspace 1; exec steam"
-exec swaymsg "workspace 2; exec firefox"
-exec swaymsg "workspace 3; exec chromium"
 
 include /etc/sway/config.d/*
