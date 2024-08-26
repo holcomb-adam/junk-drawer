@@ -19,7 +19,7 @@ alias tree4='tree -L 4'
 alias tree5='tree -L 5'
 
 alias ps='ps -u adam'
-alias wttr='curl wttr.in/Galena'
+alias wttr='curl wttr.in/Galena?u'
 
 
 # Nice information to greet the user
