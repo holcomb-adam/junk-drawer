@@ -17,7 +17,7 @@ alias tree2='tree -L 2'
 alias tree3='tree -L 3'
 alias tree4='tree -L 4'
 alias tree5='tree -L 5'
-
+alias wayvncTV='wayvnc -o HDMI-A-1'
 alias ps='ps -u adam'
 alias wttr='curl wttr.in/Galena?u'
 
