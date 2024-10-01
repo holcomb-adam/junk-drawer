@@ -20,7 +20,6 @@ alias tree5='tree -L 5'
 alias wayvncTV='wayvnc -o HDMI-A-1'
 alias ps='ps -u adam'
 alias wttr='curl wttr.in/Galena?u'
-alias ddgr
 alias ddgr='ddgr -x --noprompt'
 
 # Nice information to greet the user
