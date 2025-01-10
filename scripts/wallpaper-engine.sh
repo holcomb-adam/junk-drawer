@@ -63,7 +63,10 @@ fetch-bing-wallpaper() {
 }
 
 update-wallpaper() {
-    swaymsg output "*" bg $CACHE_BING_WALLPAPER fill
+    info "loading $CACHE_BING_WALLPAPER"
+    hyprctl hyprpaper unload $(hyprctl hyprpaper listactive | awk '{print $2}')
+    hyprctl hyprpaper preload $CACHE_BING_WALLPAPER
+    hyprctl hyprpaper wallpaper "DP-1,$CACHE_BING_WALLPAPER"
 }
 
 
